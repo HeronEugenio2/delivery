@@ -19,6 +19,15 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
+Route::group(
+    [
+        'prefix'     => 'administracao',
+        'as'         => 'manager.',
+        'middleware' => ['auth'],
+    ],
+    function() {
+        //MENU
+        Route::resource('cardapios', 'MenuController')
+             ->names('menu');
+    }
+);
