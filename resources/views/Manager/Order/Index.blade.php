@@ -36,6 +36,7 @@
                                                     </form>
                                                 </td>
                                             </tr>
+
                                         @endforeach
                                     </tbody>
                                 </table>
@@ -83,6 +84,11 @@
                                     </tbody>
                                 </table>
                             </div>
+                            <a href='https://wa.me/5524992482156?text=Vamo%20testar%20foi' class='btn btn-success btn-sm'>
+                                <i class="fab fa-whatsapp"></i> Enviar Pedido
+                            </a>
+                            <a href='' class='btn btn-primary btn-sm'><i class="far fa-file-pdf"></i> Exportar Arquivo
+                            </a>
                         </div>
                     </div>
                 @endif
