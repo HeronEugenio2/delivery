@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\MenuRequest;
 use App\Models\Menu;
 use Illuminate\Http\Request;
 
@@ -9,40 +10,59 @@ class MenuController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-       $menus = Menu::all();
-        return view ('Manager.Menu.Index', compact('menus'));
+        $menus = Menu::all();
+
+        return view('Manager.Menu.Index', compact('menus'));
     }
 
     /**
      * Show the form for creating a new resource.
-     *
      * @return \Illuminate\Http\Response
      */
     public function create()
     {
-        return view ('Manager.Menu.Create');
+        return view('Manager.Menu.Create');
     }
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(MenuRequest $menuRequest)
     {
-        dd($request->all());
+        try {
+            $requestValidated = $menuRequest->validated();
+
+            if ($requestValidated) {
+                $data      = [
+                    "title"   => $menuRequest->input('title'),
+                    "content" => $menuRequest->input('content'),
+                    "price"   => $menuRequest->input('price'),
+                ];
+                $menuSaved = Menu::create($requestValidated);
+            }
+
+            if ($menuSaved) {
+                return redirect()->route('manager.menu.index')
+                                 ->with('success', __('definitions.message.save.success'));
+            } else {
+                return redirect()->back()->with('error', __('definitions.message.save.error'));
+            }
+        } catch (Exception $ex) {
+            report($ex);
+
+            return redirect()->back()->with('error', __('definitions.message.save.error'));
+        }
     }
 
     /**
      * Display the specified resource.
-     *
-     * @param  \App\Menu  $menu
+     * @param  \App\Menu $menu
      * @return \Illuminate\Http\Response
      */
     public function show(Menu $menu)
@@ -52,8 +72,7 @@ class MenuController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @param  \App\Menu  $menu
+     * @param  \App\Menu $menu
      * @return \Illuminate\Http\Response
      */
     public function edit(Menu $menu)
@@ -63,9 +82,8 @@ class MenuController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Menu  $menu
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Menu $menu
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Menu $menu)
@@ -74,13 +92,23 @@ class MenuController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Menu  $menu
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(Menu $menu)
+    public function destroy($id)
     {
-        //
+        try {
+            $menu   = Menu::find($id);
+            $delete = $menu->delete();
+            if ($delete) {
+                return redirect()->back()->with('success', 'deletado com sucesso!');
+            } else {
+                return redirect()->back()->with('error', 'erro ao deletar!');
+            }
+        } catch (Exception $ex) {
+            report($ex);
+
+            return redirect()->back()->with('error', __('definitions.message.save.error'));
+        }
     }
 }

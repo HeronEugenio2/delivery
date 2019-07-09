@@ -31,3 +31,16 @@ Route::group(
              ->names('menu');
     }
 );
+
+Route::group(
+    [
+        'prefix'     => 'painel',
+        'as'         => 'painel.',
+        'middleware' => ['auth'],
+    ],
+    function() {
+        //MENU
+        Route::resource('pedido', 'OrderController')
+             ->names('order');
+    }
+);
