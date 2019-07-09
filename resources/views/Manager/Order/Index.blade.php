@@ -40,13 +40,18 @@
                                     </tbody>
                                 </table>
                             </div>
+                        @else
+                            <div class="alert alert-primary">
+                                <h2><i class="fas fa-exclamation-triangle"></i> Oops!</h2>
+                                Não existe cardápio cadastrado para esse restaurante!
+                            </div>
                         @endif
                     </div>
                 </div>
-                <div class='card mt-2'>
-                    <div class="card-header">Pedido Geral</div>
-                    <div class='card-body'>
-                        @if(count($orders)>0)
+                @if(count($orders)>0)
+                    <div class='card mt-2'>
+                        <div class="card-header">Pedido Geral</div>
+                        <div class='card-body'>
                             <h4>Pedido Geral:</h4>
                             <div class='table-responsive'>
                                 <table class="table table-bordered table-sm table-hover table-striped text-center">
@@ -78,9 +83,9 @@
                                     </tbody>
                                 </table>
                             </div>
-                        @endif
+                        </div>
                     </div>
-                </div>
+                @endif
             </div>
         </div>
     </div>
