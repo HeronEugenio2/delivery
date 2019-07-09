@@ -14,8 +14,8 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <!-- Bootstrap -->
-    {{--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">--}}
-    <!-- FontAwesome -->
+{{--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">--}}
+<!-- FontAwesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 </head>
 <body>
@@ -45,6 +45,9 @@
                             </li>
                         @endif
                     @else
+                        <a class="nav-link" href="{{ url('/home') }}">
+                            Dashboard
+                        </a>
                         @if(auth()->user()->email == 'hrs.eugenio@gmail.com')
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -55,8 +58,11 @@
                                     <a class="dropdown-item" href="{{route('manager.menu.index')}}">
                                         Cardápios
                                     </a>
-                                    <a class="dropdown-item" href="#">
+                                    <a class="dropdown-item" href="{{route('manager.order.index')}}">
                                         Pedidos
+                                    </a>
+                                    <a class="dropdown-item" href="{{route('manager.order.index')}}">
+                                        Horários
                                     </a>
                                 </div>
                             </li>
@@ -77,7 +83,6 @@
                                 </form>
                             </div>
                         </li>
-
                     @endguest
                 </ul>
             </div>

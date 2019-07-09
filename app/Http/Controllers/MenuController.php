@@ -44,7 +44,7 @@ class MenuController extends Controller
                     "content" => $menuRequest->input('content'),
                     "price"   => $menuRequest->input('price'),
                 ];
-                $menuSaved = Menu::create($requestValidated);
+                $menuSaved = Menu::create($data);
             }
 
             if ($menuSaved) {

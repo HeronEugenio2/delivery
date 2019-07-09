@@ -8,23 +8,26 @@ class CreateOrdersTable extends Migration
 {
     /**
      * Run the migrations.
-     *
      * @return void
      */
     public function up()
     {
-        Schema::create('orders', function (Blueprint $table) {
+        Schema::create('orders', function(Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedBigInteger('menu_id');
+            $table->unsignedBigInteger('user_id');
             $table->integer('qtd');
-            $table->bigInteger('menu_id');
-            $table->bigInteger('user_id');
+            $table->float('price');
             $table->timestamps();
+        });
+        Schema::table('orders', function(Blueprint $table) {
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('menu_id')->references('id')->on('menus');
         });
     }
 
     /**
      * Reverse the migrations.
-     *
      * @return void
      */
     public function down()

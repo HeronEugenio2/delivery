@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\OrderRequest;
 use App\Models\Menu;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
@@ -14,10 +16,17 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $menus  = Menu::where('active_flag', 1)->get();
-        $orders = Order::all();
+        if (Auth::user()->email == 'hrs.eugenio@gmail.com') {
+            $menus  = Menu::all();
+            $orders = Order::with('user', 'menu')->get();
 
-        return view('Painel.Order.Index', compact('menus', 'orders'));
+            return view('Manager.Order.Index', compact('menus', 'orders'));
+        } else {
+            $menus  = Menu::where('active_flag', 1)->get();
+            $orders = Order::with('user', 'menu')->get();
+
+            return view('Painel.Order.Index', compact('menus', 'orders'));
+        }
     }
 
     /**
@@ -30,19 +39,20 @@ class OrderController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param OrderRequest $request
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(OrderRequest $request)
     {
         $data = [
             'qtd'     => $request->input('qtd'),
             'menu_id' => $request->input('menuId'),
             'user_id' => $request->input('userId'),
+            'price'   => $request->input('priceOrder'),
         ];
 
         Order::create($data);
+
         return redirect()->back()->with('success', 'inserido com sucesso!');
     }
 
@@ -78,12 +88,14 @@ class OrderController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     * @param  \App\Order $order
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(Order $order)
+    public function destroy($id)
     {
-        //
+        $order  = Order::find($id);
+        $delete = $order->delete();
+
+        return redirect()->back()->with('success', 'deletado com sucesso!');
     }
 }

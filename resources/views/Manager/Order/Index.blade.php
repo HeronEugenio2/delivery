@@ -70,10 +70,7 @@
                                                     <form action="{{ route('painel.order.destroy', $order->id) }}" method="post">
                                                         @method('delete')
                                                         @csrf
-                                                        @if(\Illuminate\Support\Facades\Auth::user()->id == $order->user_id)
-                                                            {{--<a href='#' class='btn btn-sm btn-editar btn-primary'>Editar</a>--}}
-                                                            <button class="btn btn-danger btn-sm" type="submit" value="Delete">Cancelar</button>
-                                                        @endif
+                                                        <button class="btn btn-danger btn-sm" type="submit" value="Delete">Cancelar</button>
                                                     </form>
                                                 </td>
                                             </tr>

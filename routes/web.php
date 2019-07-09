@@ -29,6 +29,12 @@ Route::group(
         //MENU
         Route::resource('cardapios', 'MenuController')
              ->names('menu');
+        //ORDERS
+        Route::resource('pedidos', 'OrderController')
+             ->names('order');
+        //HORARIO
+        Route::resource('horarios', 'ScheduleController')
+             ->names('schedule');
     }
 );
 

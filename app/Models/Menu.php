@@ -12,4 +12,8 @@ class Menu extends Model
         'price',
         'active_flag',
     ];
+    public function order()
+    {
+        return $this->hasMany(Order::class);
+    }
 }
